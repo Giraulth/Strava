@@ -15,6 +15,10 @@ func main() {
 	err = getActivity(token)
 	if err != nil {
 		fmt.Println(err)
-		return
+	}
+
+	err = getKudos(token)
+	if err != nil {
+		fmt.Println(err)
 	}
 }

@@ -10,5 +10,5 @@ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 export PATH="$PATH:$HOME/go/bin"
 golangci-lint run
 # Formatter
-gofmt -w * # installed by default
+gofmt -w *.go # installed by default
 ```

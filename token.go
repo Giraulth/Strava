@@ -24,10 +24,10 @@ type requestBody struct {
 	} `yaml:"user"`
 }
 
-func updateConfig(requestBody requestBody, access_token string, refresh_token string) error {
+func updateConfig(requestBody requestBody, accessToken string, refreshToken string) error {
 
-	requestBody.User.AccessToken = access_token
-	requestBody.User.RefreshToken = refresh_token
+	requestBody.User.AccessToken = accessToken
+	requestBody.User.RefreshToken = refreshToken
 
 	// Marshal the updated Config struct into YAML
 	updatedYAML, err := yaml.Marshal(&requestBody)
@@ -107,10 +107,10 @@ func setupConfig() (string, error) {
 		return "", fmt.Errorf("%v", err)
 	}
 
-	access_token := requestBody.User.AccessToken
-	refresh_token := requestBody.User.RefreshToken
+	accessToken := requestBody.User.AccessToken
+	refreshToken := requestBody.User.RefreshToken
 
-	if access_token == "" && refresh_token == "" {
+	if accessToken == "" && refreshToken == "" {
 		_, err = getToken(requestBody, "authorization_code")
 		if err != nil {
 			return "", fmt.Errorf("%v", err)

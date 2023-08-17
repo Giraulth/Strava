@@ -4,9 +4,9 @@ import (
 	"Strava/tools"
 	"encoding/json"
 	"fmt"
-	"time"
-	"strconv"
 	"net/url"
+	"strconv"
+	"time"
 )
 
 var stravaApi string = "https://www.strava.com/api/v3/"
@@ -25,7 +25,7 @@ func getKudos(token string) error {
 
 	activities := tools.SelectId(db)
 	for _, id := range activities {
-		requestUrl := baseUrl +  strconv.FormatInt(id, 10) + "/kudos"
+		requestUrl := baseUrl + strconv.FormatInt(id, 10) + "/kudos"
 		response, err := tools.SendRequest("GET", requestUrl, nil, token)
 		if err != nil {
 			return fmt.Errorf("%v", err)
@@ -88,7 +88,7 @@ func getActivity(token string) error {
 			activityId := int64(activity["id"].(float64))
 			activityName := activity["name"].(string)
 			tableColumns := []string{"start_date", "id", "name", "type", "distance", "moving_time",
-				"elapsed_time", "average_heartrate", "max_heartrate", "got_kudos_list"}
+				"elapsed_time", "average_heartrate", "max_heartrate"}
 			values := []interface{}{activity["start_date_local"].(string),
 				activityId,
 				activityName,
@@ -98,13 +98,12 @@ func getActivity(token string) error {
 				activity["elapsed_time"].(float64),
 				getDefaultFloatValue(activity, "average_heartrate"),
 				getDefaultFloatValue(activity, "max_heartrate"),
-				false}
+			}
 			fmt.Printf("Activity in progress: %s (%d) \n", activityName, activityId)
 			err := tools.GenericInsert(db, "activity", tableColumns, values...)
 			if err != nil {
 				return fmt.Errorf("Activity %d is already in database", activityId)
 			}
-
 		}
 	}
 

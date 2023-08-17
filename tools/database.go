@@ -56,6 +56,20 @@ func placeholders(n int) string {
 	return strings.Join(placeholders, ", ")
 }
 
+func GenericCount(db *sql.DB, table string) int {
+	query := fmt.Sprintf("SELECT count(*) FROM %s", table)
+
+	row := db.QueryRow(query)
+
+	var count int
+	err := row.Scan(&count)
+	if err != nil {
+		fmt.Println("Error fetching count:", err)
+		return 0
+	}
+	return count
+}
+
 func SelectId(db *sql.DB) []int64 {
 	activityList := []int64{}
 	rows, err := db.Query(

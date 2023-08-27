@@ -58,3 +58,22 @@ func SendRequest(method string, url string, requestBody []byte, token string) ([
 
 	return body, nil
 }
+
+func WriteJsonData(data interface{}, w http.ResponseWriter) {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		http.Error(w, "Internal Server Error "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK) // 200 OK
+	// Set the Content-Type header to indicate JSON response
+	w.Header().Set("Content-Type", "application/json")
+
+	// Write the JSON data to the response
+	_, err = w.Write(jsonData)
+	if err != nil {
+		http.Error(w, "Internal Server Error "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+}

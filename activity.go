@@ -2,6 +2,7 @@ package main
 
 import (
 	"Strava/tools"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/url"
@@ -18,9 +19,16 @@ func getDefaultFloatValue(activity map[string]interface{}, columnName string) fl
 	return 0.0
 }
 
-func getKudos(token string) error {
+func getKudosRanking() ([]map[string]interface{}, error) {
+	db, err := tools.ConnectDB()
+	if err != nil {
+		return nil, fmt.Errorf("%v", err)
+	}
+	return tools.SelectKudosRanking(db)
+}
+
+func getKudos(db *sql.DB, token string) error {
 	baseUrl := stravaApi + "activities/"
-	db := tools.ConnectDB()
 	tableColumns := []string{"activity_id", "username"}
 
 	activities := tools.SelectId(db)
@@ -56,9 +64,8 @@ func getKudos(token string) error {
 	return nil
 }
 
-func getActivity(token string) error {
+func getActivity(db *sql.DB, token string) error {
 	baseUrl := stravaApi + "/athlete/activities?"
-	db := tools.ConnectDB()
 
 	for i := 1; i <= 20; i++ {
 		queryParams := url.Values{

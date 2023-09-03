@@ -1,3 +1,11 @@
+## Installation Guide
+
+Make sure you have `Docker` and `Docker-compose` installed on your machine. Run following command to deploy the projects :
+
+```sh
+sudo ./install_strava.sh
+```
+
 ## Setup config
 
 https://www.strava.com/oauth/authorize?client_id={clientId}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all

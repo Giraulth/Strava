@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  db:
+    container_name: strava-db-container
+    image: strava_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: strava
+      PGDATA: /data/postgres
+    volumes:
+       - /data/postgres:/data/postgres
+    ports:
+      - "5432:5432"
+
+  api:
+    container_name: strava-api-container
+    image: strava_api
+    ports:
+      - "8080:8080"
+  
+volumes:
+  postgres-db:
+    driver: local
